@@ -21,10 +21,12 @@ class OrderController extends Controller
 
         $orders = Order::with('books')
             ->whereHas('user', function($query) use ($buyer_email){
-                $query->where('email', 'LIKE', '%$buyer_email%');
+                $query->where('email', 'LIKE', "%$buyer_email%");
             })
-            ->where('status', 'LIKE', '%$status%')
+            ->where('status', 'LIKE', "%$status%")
             ->paginate(5);
+
+        // $orders = Order::with('books');
 
         return view('orders.index', compact('orders'));
     }

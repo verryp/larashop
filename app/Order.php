@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    public function getTotalQuantityAtribute(){
+    public function getTotalQuantityAttribute(){
         $total_quantity = 0;
 
         foreach($this->books as $book){

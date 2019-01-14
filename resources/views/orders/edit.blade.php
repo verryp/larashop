@@ -1,4 +1,4 @@
-@extends('layouts.blade')
+@extends('layouts.global')
 
 @section('title')
     Edit order
@@ -11,7 +11,7 @@
 
             <form action="{{route('orders.update', $order->id)}}" method="POST" class="shadow-sm bg-white p-3">
                 @csrf
-                @method('UPDATE')
+                @method('PUT')
 
                 <label for="invoice_number">Invoice number</label><br>
                 <input type="text" class="form-control" value="{{$order->invoice_number}}" disabled>
