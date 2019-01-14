@@ -64,7 +64,7 @@ class UserController extends Controller
             'roles' => 'required',
             'phone' => 'numeric|digits_between:10,12|unique:users',
             'address' => 'required|min:10|max:200',
-            'avatar' => 'required',
+            'avatar' => 'required|image',
             'email' => 'email|unique:users',
             'password' => 'required',
             'password_confirmation' => 'required|same:password'
@@ -168,6 +168,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'name' => 'required|min:5|max:100',
+            'roles' => 'required',
+            'address' => 'required|min:10|max:200',
+            'phone' => 'numeric|digits_between:10,12',
+        ]);
+
         $user = User::findOrFail($id);
 
         $user->name = $request->get('name');
@@ -205,3 +212,4 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'User successfully delete');
     }
 }
+

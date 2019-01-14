@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Auth;
 
 class CategoryController extends Controller
@@ -46,8 +47,10 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required'
+            'name' => 'required|min:3|max:20',
+            'image'=> 'required|image'
         ]);
+
         $name = $request->get('name');
 
         $new_category = new Category;
@@ -101,6 +104,15 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        $this->validate($request, [
+            'name' => 'required|min:3|max:20',
+            // 'image'=> 'required',
+            'slug' => [
+                'required',
+                Rule::unique('categories')->ignore($category->slug, 'slug')
+            ]
+        ]);
+        
         $name = $request->get('name');
         $slug = $request->get('slug');
 

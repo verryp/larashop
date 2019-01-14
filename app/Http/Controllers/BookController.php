@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Book;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Auth;
 
 class BookController extends Controller
@@ -49,11 +50,13 @@ class BookController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required',
-            'description' => 'required',
-            'author' => 'required',
-            'publisher' => 'required',
-            'price' => 'required'
+            'title' => 'required|min:5|max:200',
+            'description' => 'required|min:10|max:1000',
+            'author' => 'required|min:3|max:200',
+            'publisher' => 'required|min:3|max:200',
+            'price' => 'numeric|digits_between:0,10',
+            'stock' => 'numeric|digits_between:0,10',
+            'cover' => 'required|image'
         ]);
         
         $newBook = new Book;
@@ -120,6 +123,20 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
+        $this->validate($request, [
+            'title' => 'required|min:5|max:200',
+            'description' => 'required|min:10|max:1000',
+            'author' => 'required|min:3|max:200',
+            'publisher' => 'required|min:3|max:200',
+            'price' => 'numeric|digits_between:0,10',
+            'stock' => 'numeric|digits_between:0,10',
+            // 'cover' => 'required',
+            'slug' => [
+                'required',
+                Rule::unique('books')->ignore($book->slug, 'slug')
+            ]
+        ]);
+
         $book->title = $request->get('title');
         $book->slug = $request->get('slug');
         $book->description = $request->get('description');

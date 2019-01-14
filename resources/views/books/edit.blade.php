@@ -13,7 +13,10 @@
         @method('PATCH')
 
         <label for  = "title">Title</label><br>
-        <input type = "text" class = "form-control" value = "{{$book->title}}" name = "title" placeholder = "Book title" />
+        <input type = "text" class = "form-control {{$errors->first('title') ? "is-invalid" : ""}}" value = "{{old('title') ? old('title') : $book->title}}" required name = "title" placeholder = "Book title" />
+        <div class="invalid-feedback">
+            {{$errors->first('title')}}
+        </div>
         <br>
 
         <label for   = "cover">Cover</label><br>
@@ -28,11 +31,19 @@
         <br><br>
 
         <label for  = "slug">Slug</label><br>
-        <input type = "text" class = "form-control" value = "{{$book->slug}}" name = "slug" placeholder = "enter-a-slug" />
+        <input type = "text" class = "form-control {{$errors->first('slug') ? "is-invalid" : ""}}" value = "{{old('slug') ? old('slug') : $book->slug}}" required  name = "slug" placeholder = "enter-a-slug" />
+        <div class="invalid-feedback">
+            {{$errors->first('slug')}}
+        </div>
         <br>
 
         <label    for  = "description">Description</label> <br>
-        <textarea name = "description" id = "description" class = "form-control">{{$book->description}}</textarea>
+        <textarea name = "description" id = "description" class = "form-control {{$errors->first('description') ? "is-invalid" : ""}}">
+            {{old('description') ? old('description') : $book->description}}
+        </textarea>
+        <div class="invalid-feedback">
+            {{$errors->first('description')}}
+        </div>
         <br>
 
         <label  for            = "categories">Categories</label>
@@ -40,19 +51,31 @@
         <br><br>
 
         <label for  = "stock">Stock</label><br>
-        <input type = "text" class = "form-control" placeholder = "Stock" id = "stock" name = "stock" value = "{{$book->stock}}">
+        <input type = "text" class = "form-control {{$errors->first('stock') ? "is-invalid" : ""}}" value = "{{old('stock') ? old('stock') : $book->stock}}" required " placeholder = "Stock" id = "stock" name = "stock">
+        <div class="invalid-feedback">
+            {{$errors->first('stock')}}
+        </div>
         <br>
 
         <label for         = "author">Author</label>
-        <input placeholder = "Author" value = "{{$book->author}}" type = "text" id = "author" name = "author" class = "form-control">
+        <input placeholder = "Author" type = "text" id = "author" name = "author" class = "form-control {{$errors->first('author') ? "is-invalid" : ""}}" value = "{{old('author') ? old('author') : $book->author}}" required>
+        <div class="invalid-feedback">
+            {{$errors->first('author')}}
+        </div>
         <br>
 
         <label for   = "publisher">Publisher</label><br>
-        <input class = "form-control" type = "text" placeholder = "Publisher" name = "publisher" id = "publisher" value = "{{$book->publisher}}">
+        <input class = "form-control {{$errors->first('publisher') ? "is-invalid" : ""}}" value = "{{old('publisher') ? old('publisher') : $book->publisher}}" required  type = "text" placeholder = "Publisher" name = "publisher" id = "publisher">
+        <div class="invalid-feedback">
+            {{$errors->first('publisher')}}
+        </div>
         <br>
 
         <label for  = "price">Price</label><br>
-        <input type = "text" class = "form-control" name = "price" placeholder = "Price" id = "price" value = "{{$book->price}}">
+        <input type = "text" class = "form-control {{$errors->first('price') ? "is-invalid" : ""}}" value = "{{old('price') ? old('price') : $book->price}}" required  name = "price" placeholder = "Price" id = "price">
+        <div class="invalid-feedback">
+            {{$errors->first('price')}}
+        </div>
         <br>
 
         <label  for  = "">Status</label>

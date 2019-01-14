@@ -20,7 +20,10 @@
     {{ method_field('PATCH')}}
 
     <label for="name">Name</label>
-    <input value="{{$user->name}}" class="form-control" placeholder="Full Name" type="text" name="name" id="name"/>
+    <input value="{{old('name') ? old('name') : $user->name}}" required class="form-control {{$errors->first('name') ? "is-invalid" : ""}}" placeholder="Full Name" type="text" name="name" id="name"/>
+    <div class="invalid-feedback">
+      {{$errors->first('name')}}
+    </div>
     <br>
 
     <label for="username">Username</label>
@@ -51,14 +54,22 @@
     <br>
 
     <br>
+
     <label for="phone">Phone number</label> 
     <br>
-    <input type="text" name="phone" class="form-control" value="{{$user->phone}}">
-
+    <input type="text" name="phone" value="{{old('phone') ? old('phone') : $user->phone}}" required class="form-control {{$errors->first('phone') ? "is-invalid" : ""}}">
+    <div class="invalid-feedback">
+      {{$errors->first('phone')}}
+    </div>
     <br>
+
     <label for="address">Address</label>
-    <textarea name="address" id="address" class="form-control">{{$user->address}}
+    <textarea name="address" id="address" class="form-control {{$errors->first('address') ? "is-invalid" : ""}}">
+        {{old('address') ? old('address') : $user->address}}
     </textarea>
+    <div class="invalid-feedback">
+      {{$errors->first('address')}}
+    </div>
     <br>
 
     <label for="avatar">Avatar image</label>
