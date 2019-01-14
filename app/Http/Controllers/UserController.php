@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -57,6 +58,18 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required|min:5|max:10',
+            'username' => 'required|min:5|max:20|unique:users',
+            'roles' => 'required',
+            'phone' => 'numeric|digits_between:10,12|unique:users',
+            'address' => 'required|min:10|max:200',
+            'avatar' => 'required',
+            'email' => 'email|unique:users',
+            'password' => 'required',
+            'password_confirmation' => 'required|same:password'
+        ]);
+
         //CARA PERTAMA
         $new_user = new User; 
 

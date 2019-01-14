@@ -16,12 +16,12 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = Category::paginate(10);
+        $categories = Category::paginate(5);
 
         $filterKeyword = $request->get('keyword');
 
         if($filterKeyword){
-            $categories = Category::where("name", "LIKE", "%$filterKeyword%")->paginate(10);
+            $categories = Category::where("name", "LIKE", "%$filterKeyword%")->paginate(5);
         }
 
         return view('categories.index', compact('categories'));
@@ -45,6 +45,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required'
+        ]);
         $name = $request->get('name');
 
         $new_category = new Category;
@@ -164,5 +167,13 @@ class CategoryController extends Controller
 
             return redirect()->route('categories.index')->with('success', 'Category permanently deleted');
         }
+    }
+
+    public function ajaxSearch(Request $request){
+        $keyword = $request->get('q');
+
+        $categories = Category::where("name", "LIKE", "%$keyword%")->get();
+
+        return $categories;
     }
 }
