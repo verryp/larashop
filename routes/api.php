@@ -17,46 +17,55 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware(['throttle:10,1', 'cors'])->prefix('api')->group(function(){
+Route::prefix('api')->group(function(){
 
-    // * route resource controller yang ke pake hanya index dan show
-    // Route::resources([
-    //     'books' => 'Api\BookController',
-    //     'users' => 'Api\UserController',
-    //     'categories' => 'Api\CategoryController',
-    //     'orders' => 'Api\OrderController'
-    // ])->only([
-    //     'index', 'show'
-    // ]);
+    // * route yang sifatnya public
+    Route::post('login', 'Api\AuthController@login');
+    Route::post('register', 'Api\AuthController@register');
 
-    // * kebalikan dari method only
-    // Route::resources([
-    //     'books' => 'Api\BookController',
-    //     'users' => 'Api\UserController',
-    //     'categories' => 'Api\CategoryController',
-    //     'orders' => 'Api\OrderController'
-    // ])->expect([
-    //     'create', 'store', 'update', 'destroy'
-    // ]);
+    // * route yang sifatnya private
+    Route::group(['middleware' => ['auth:api', 'throttle:10,1', 'cors']], function () {
 
-    // * include semua resource controller
-    // Route::resources([
-    //     'books' => 'Api\BookController',
-    //     'users' => 'Api\UserController',
-    //     'categories' => 'Api\CategoryController',
-    //     'orders' => 'Api\OrderController'
-    // ]);
+        // * route resource controller yang ke pake hanya index dan show
+        // Route::resources([
+        //     'books' => 'Api\BookController',
+        //     'users' => 'Api\UserController',
+        //     'categories' => 'Api\CategoryController',
+        //     'orders' => 'Api\OrderController'
+        // ])->only([
+        //     'index', 'show'
+        // ]);
 
-    // * tanpa perlu menggunakan method only atau expect
-    // ? karna di route api method create dan update tidak diperlukan, cara lain ..
-    // TODO adalah dengan menjalankan php artisan make:controller NamaController --api
-    Route::apiResources([
-        'books' => 'Api\BookController',
-        'users' => 'Api\UserController',
-        'categories' => 'Api\CategoryController',
-        'orders' => 'Api\OrderController'
-    ]);
+        // * kebalikan dari method only
+        // Route::resources([
+        //     'books' => 'Api\BookController',
+        //     'users' => 'Api\UserController',
+        //     'categories' => 'Api\CategoryController',
+        //     'orders' => 'Api\OrderController'
+        // ])->expect([
+        //     'create', 'store', 'update', 'destroy'
+        // ]);
 
+        // * include semua resource controller
+        // Route::resources([
+        //     'books' => 'Api\BookController',
+        //     'users' => 'Api\UserController',
+        //     'categories' => 'Api\CategoryController',
+        //     'orders' => 'Api\OrderController'
+        // ]);
+
+        // * tanpa perlu menggunakan method only atau expect
+        // ? karna di route api method create dan update tidak diperlukan, cara lain ..
+        // TODO => adalah dengan menjalankan php artisan make:controller NamaController --api
+        Route::apiResources([
+            'books' => 'Api\BookController',
+            'users' => 'Api\UserController',
+            'categories' => 'Api\CategoryController',
+            'orders' => 'Api\OrderController',
+        ]);
+        
+        Route::post('logout', 'Api\AuthController@logout');
+    });
 });
 
 // Route::get('/book/api', function(){
