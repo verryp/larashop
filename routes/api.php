@@ -23,6 +23,14 @@ Route::prefix('api')->group(function(){
     Route::post('login', 'Api\AuthController@login');
     Route::post('register', 'Api\AuthController@register');
 
+    Route::get('categories/random/{count}', 'Api\CategoryController@random');
+    Route::get('categories/slug/{slug}', 'Api\CategoryController@slug');
+    Route::resource('categories', 'Api\CategoryController');
+    Route::resource('books', 'Api\BookController');
+
+    Route::get('books/top/{count}', 'Api\BookController@top');
+    Route::get('books/slug/{slug}', 'Api\BookController@slug');
+
     // * route yang sifatnya private
     Route::group(['middleware' => ['auth:api', 'throttle:10,1', 'cors']], function () {
 
@@ -57,12 +65,12 @@ Route::prefix('api')->group(function(){
         // * tanpa perlu menggunakan method only atau expect
         // ? karna di route api method create dan update tidak diperlukan, cara lain ..
         // TODO => adalah dengan menjalankan php artisan make:controller NamaController --api
-        Route::apiResources([
-            'books' => 'Api\BookController',
-            'users' => 'Api\UserController',
-            'categories' => 'Api\CategoryController',
-            'orders' => 'Api\OrderController',
-        ]);
+        // Route::apiResources([
+        //     'books' => 'Api\BookController',
+        //     'users' => 'Api\UserController',
+        //     'categories' => 'Api\CategoryController',
+        //     'orders' => 'Api\OrderController',
+        // ]);
         
         Route::post('logout', 'Api\AuthController@logout');
     });
