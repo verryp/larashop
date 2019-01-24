@@ -130,4 +130,13 @@ class BookController extends Controller
         $criteria = Book::where('slug', $slug)->first();
         return new BookResource($criteria);
     }
+
+    public function search($keyword) {
+        $criteria = Book::select('*')
+            ->where('title', 'LIKE', "%$keyword%")
+            ->orderBy('views', 'DESC')
+            ->get();
+        
+        return new BooksResourceCollection($criteria);
+    }
 }
