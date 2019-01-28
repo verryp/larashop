@@ -5,10 +5,23 @@ namespace App\Http\Controllers;
 use App\Book;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Gate;
 use Auth;
 
 class BookController extends Controller
 {
+    public function __construct() {
+        
+        $this->middleware(function($request, $next) {
+            
+            if(Gate::allows('manage-books'))
+                return $next($request);
+
+            abort(403, 'Anda tidak memiliki akses untuk route ini!');
+        });
+    }
+
+
     /**
      * Display a listing of the resource.
      *

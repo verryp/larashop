@@ -6,9 +6,22 @@ use App\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Gate;
 
 class OrderController extends Controller
 {
+    public function __construct() {
+        
+        $this->middleware(function($request, $next) {
+            
+            if(Gate::allows('manage-orders'))
+                return $next($request);
+
+            abort(403, 'Anda tidak memiliki akses untuk route ini!');
+        });
+    }
+
+
     /**
      * Display a listing of the resource.
      *

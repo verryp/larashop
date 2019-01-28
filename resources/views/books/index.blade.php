@@ -82,7 +82,7 @@
                             </ul>
                         </td>
                         <td>{{$book->stock}}</td>
-                        <td>{{$book->price}}</td>
+                        <td>{{number_format($book->price)}}</td>
                         <td>
                             <a href = "{{route('books.edit', $book->id)}}" class = "btn btn-info btn-sm"> Edit </a>
 

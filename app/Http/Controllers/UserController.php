@@ -5,9 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
 {
+    // * tambahin ini untuk untuk otorisasi UserController menggunakan facedes Gate
+    public function __construct() {
+
+        $this->middleware(function($request, $next) {
+            
+            if(Gate::allows('manage-users')) return $next($request);
+
+            abort(403, 'Anda tidak memiliki akses untuk route ini!');
+        });
+    }
+
     /**
      * Display a listing of the resource.
      *
