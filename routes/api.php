@@ -32,6 +32,9 @@ Route::prefix('api')->group(function(){
     Route::get('books/slug/{slug}', 'Api\BookController@slug');
     Route::get('books/search/{keyword}', 'Api\BookController@search');
 
+    Route::get('provinces', 'Api\ShopController@provinces');
+    Route::get('cities', 'Api\ShopController@cities');
+
     // * route yang sifatnya private
     Route::group(['middleware' => ['auth:api', 'throttle:10,1', 'cors']], function () {
 
