@@ -34,6 +34,7 @@ Route::prefix('api')->group(function(){
 
     Route::get('provinces', 'Api\ShopController@provinces');
     Route::get('cities', 'Api\ShopController@cities');
+    Route::get('couriers', 'Api\ShopController@couriers');
 
     // * route yang sifatnya private
     Route::group(['middleware' => ['auth:api', 'throttle:10,1', 'cors']], function () {
@@ -68,7 +69,7 @@ Route::prefix('api')->group(function(){
 
         // * tanpa perlu menggunakan method only atau expect
         // ? karna di route api method create dan update tidak diperlukan, cara lain ..
-        // TODO => adalah dengan menjalankan php artisan make:controller NamaController --api
+        // ? => adalah dengan menjalankan php artisan make:controller NamaController --api
         // Route::apiResources([
         //     'books' => 'Api\BookController',
         //     'users' => 'Api\UserController',
@@ -77,6 +78,8 @@ Route::prefix('api')->group(function(){
         // ]);
         
         Route::post('logout', 'Api\AuthController@logout');
+        Route::post('shipping', 'Api\ShopController@shipping');
+        Route::post('services', 'Api\ShopController@services');
     });
 });
 

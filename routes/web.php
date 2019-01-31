@@ -45,5 +45,5 @@ Route::resource('books', 'BookController');
 Route::resource('orders', 'OrderController');
 
 Route::get('/test/forbidden', function(){
-    abort(403, "Anda tidak memiliki akses untuk page ini");
+    abort(403, "TESTING ==> Anda tidak memiliki akses untuk page ini");
 });

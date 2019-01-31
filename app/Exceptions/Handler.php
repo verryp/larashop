@@ -15,6 +15,9 @@ use Illuminate\Database\QueryException;
 //Lib Catch error buat autentikasi
 use Illuminate\Auth\AuthenticationException;
 
+use Illuminate\Support\Facades\Route;
+use Auth;
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -58,6 +61,8 @@ class Handler extends ExceptionHandler
     {
         // read konfigurasi mode aplikasi apakah prod mode atau dev mode
         $debug = config('app.debug');
+        // $web = base_path('routes/web.php');
+        // $api = base_path('routes/api.php');
         $message = '';
         $status_code = 500;
         
@@ -103,8 +108,35 @@ class Handler extends ExceptionHandler
         if ($debug) {
             $errors['exception'] = get_class($exception);
             $errors['trace'] = explode("\n", $exception->getTraceAsString());
-        }    
+        }
+        
+        // if($web){
+        //     return $rendered;
+        // }else if($api){
+        //     return response()->json([
+        //         'status'    => 'error',
+        //         'message'   => $message,
+        //         'data'      => null,
+        //         'errors'    => $errors,
+        //     ], $status_code);
+        // }
 
+        // if($request->ajax()){
+        //     return response()->json([
+        //         'status'    => 'error',
+        //         'message'   => $message,
+        //         'data'      => null,
+        //         'errors'    => $errors,
+        //     ], $status_code);
+        // }else{
+        //     return $rendered;
+        // }
+
+        // ! kalo misal mau pake handler biasa, bawaan laravel
+        // return $rendered;
+
+
+        // ! kalo mau pake custom exception, bertipe json -> tanpa perlu utak atik di controller
         return response()->json([
             'status'    => 'error',
             'message'   => $message,
@@ -120,5 +152,9 @@ class Handler extends ExceptionHandler
             'message' => 'Authentication',
             'data' => null
         ], 401);
+    }
+
+    protected function base_path(){
+        return $path = 'routes/web.php';
     }
 }
