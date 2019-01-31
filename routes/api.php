@@ -80,6 +80,7 @@ Route::prefix('api')->group(function(){
         Route::post('logout', 'Api\AuthController@logout');
         Route::post('shipping', 'Api\ShopController@shipping');
         Route::post('services', 'Api\ShopController@services');
+        Route::post('payment', 'Api\ShopController@payment');
     });
 });
 

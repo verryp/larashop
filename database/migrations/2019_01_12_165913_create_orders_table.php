@@ -18,6 +18,7 @@ class CreateOrdersTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->float('total_price')->unsigned()->defaults(0);
             $table->string('invoice_number');
+            $table->string('courier_service')->nullable();
             $table->enum('status', ['SUBMIT', 'PROCESS', 'FINISH','CANCEL']);
             $table->timestamps();
 
