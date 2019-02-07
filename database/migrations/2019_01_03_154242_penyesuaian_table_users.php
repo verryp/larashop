@@ -20,6 +20,11 @@ class PenyesuaianTableUsers extends Migration
             $table->string("phone");
             $table->string("avatar")->nullable();
             $table->enum("status", ["ACTIVE", "INACTIVE"]);
+            $table->integer('province_id');
+            $table->integer('city_id');
+
+            $table->foreign('city_id')->references('id')->on('cities');
+            $table->foreign('province_id')->references('id')->on('provinces');
         });
     }
 

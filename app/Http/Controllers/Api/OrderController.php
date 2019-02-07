@@ -17,19 +17,7 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        $status = $request->get('status');
-        $buyer_email = $request->get('buyer_email');
-
-        $orders = Order::with('books')
-            ->whereHas('user', function($query) use ($buyer_email){
-                $query->where('email', 'LIKE', "%$buyer_email%");
-            })
-            ->where('status', 'LIKE', "%$status%")
-            ->paginate(5);
-
-        // $orders = Order::with('books');
-
-        return view('orders.index', compact('orders'));
+        //
     }
 
     /**
@@ -72,7 +60,7 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        return view('orders.edit', compact('order'));
+        //
     }
 
     /**
@@ -84,11 +72,7 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        $order->status = $request->get('status');
-
-        $order->save();
-
-        return redirect()->route('orders.index', compact('order'))->with('success', 'Order status successfully updated');
+        //
     }
 
     /**

@@ -44,7 +44,7 @@ class ShopController extends Controller
             $user->name = $request->name;
             $user->address = $request->address;
             $user->phone = $request->phone;
-            $user->provinde_id = $request->city_id;
+            $user->province_id = $request->city_id;
 
             if($user->save()) {
                 $status = "success";
@@ -102,6 +102,7 @@ class ShopController extends Controller
 
         if($user) {
             // * hardcode, destinasi di jogja
+            $destination = $user->city_id;
             $destination = 501;
 
             if($destination > 0) {
@@ -284,7 +285,7 @@ class ShopController extends Controller
             try {
                 // * init data kurir
                 $origin = 501; // * id jogja dari api rajaongkir
-                $destination = 501; // * maap hardcode, kalo mau auto tambahin relasi dari user ke city
+                $destination = $user->city_id; // * maap hardcode, kalo mau auto tambahin relasi dari user ke city
 
                 if($destination <= 0)
                     $error++;
@@ -302,7 +303,7 @@ class ShopController extends Controller
                 $order->status = 'SUBMIT';
         
                 if($order->save()) {
-                    $total_price = 0;
+                    $total_receipt = 0;
                     $total_weight = 0;
 
                     // * melakukan pengecekan kembali dalam kayak validateCarts()
@@ -314,7 +315,7 @@ class ShopController extends Controller
         
                         if($book) {
                             if($book->stock >= $quantity) {
-                                $total_price += $book->price * $quantity;
+                                $total_receipt += $book->price * $quantity;
                                 $total_weight += $book->weight * $quantity;
         
                                 // buat detil order dari model BookOrder
@@ -339,7 +340,7 @@ class ShopController extends Controller
                     }
 
                     // * cek ongkir
-                    $totalBill = 0;
+                    $totalPrice = 0;
                     $weight = $total_weight * 1000; // ubah ke gram, biar gampang buat kondisinya :v
 
                     if($weight <= 0) {
@@ -379,10 +380,10 @@ class ShopController extends Controller
                         throw new \Exception('Biaya Service invalid');
                     }
 
-                    $total_price = $total_price + $service_cost;
+                    $total_price = $total_receipt + $service_cost;
                     
                     // * udpate total harga order
-                    $order->total_price = $total_price;
+                    $order->total_price = $$total_price;
 
                     if($order->save()) {
                         if($error==0) {
